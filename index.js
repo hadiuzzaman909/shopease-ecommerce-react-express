@@ -20,6 +20,7 @@ async function run() {
     const partsCollection = client.db('bike_bones').collection('parts');
     const purchaseCollection = client.db('bike_bones').collection('purchase');
     const reviewsCollection = client.db('bike_bones').collection('reviews');
+    const myProfileCollection = client.db('bike_bones').collection('myProfile');
 
     const userCollection = client.db('bike_bones').collection('users');
 
@@ -65,6 +66,19 @@ async function run() {
       res.send(reviews);
     });
 
+    //myProfile
+    app.put('/myProfile', async (req, res) => {
+      const email = req.query.email;
+      const user = req.body;
+      const filter = { email: email };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: user,
+      };
+      const result = await myProfileCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+
+    })
 
 
 
