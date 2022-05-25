@@ -57,6 +57,12 @@ async function run() {
       res.send(part);
     });
 
+    app.post('/parts',async(req,res)=>{
+      const addPart=req.body;
+      const result=await partsCollection.insertOne(addPart);
+      res.send(result);
+    })
+
     //purchase
     app.post('/purchase',async(req,res)=>{
       const purchase=req.body;
@@ -147,7 +153,7 @@ async function run() {
       }
     })
 
-    app.get('/admin/:email',async(req,res)=>{
+    app.get('/admin/:email',verifyJWT,async(req,res)=>{
       const email=req.params.email;
       const user=await userCollection.findOne({email:email});
       const isAdmin=user.role==='admin';
