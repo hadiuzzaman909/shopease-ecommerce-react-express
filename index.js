@@ -63,6 +63,13 @@ async function run() {
       res.send(result);
     })
 
+    app.delete('/parts/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:ObjectId(id)};
+      const result=await partsCollection.deleteOne(query);
+      res.send(result);
+    })
+
     //purchase
     app.post('/purchase',async(req,res)=>{
       const purchase=req.body;
@@ -81,6 +88,13 @@ async function run() {
       else {
         return res.status(403).send({ message: 'forbidden access' });
       }
+
+    })
+    app.get('/purchase/:id',verifyJWT,async (req,res)=>{
+      const id=req.params.id;
+      const query={_id: ObjectId(id)};
+      const result=await purchaseCollection.insertOne(query);
+      res.send(result);
 
     })
 
