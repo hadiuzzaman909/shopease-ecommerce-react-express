@@ -73,7 +73,7 @@ async function run() {
     //purchase part
 
 
-    app.get('/purchaseForAll', async (req, res) => {
+    app.get('/purchaseForAll',verifyJWT, async (req, res) => {
       const query = {};
       const cursor = purchaseCollection.find(query);
       const parts = (await cursor.toArray()).reverse();
