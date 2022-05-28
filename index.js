@@ -49,12 +49,7 @@ async function run() {
       const parts = (await cursor.toArray()).reverse();
       res.send(parts);
     });
-    app.get('/purchaseForAll', async (req, res) => {
-      const query = {};
-      const cursor = purchaseCollection.find(query);
-      const parts = (await cursor.toArray()).reverse();
-      res.send(parts);
-    });
+
     app.get('/part/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -75,7 +70,16 @@ async function run() {
       res.send(result);
     })
 
-    //purchase
+    //purchase part
+
+
+    app.get('/purchaseForAll', async (req, res) => {
+      const query = {};
+      const cursor = purchaseCollection.find(query);
+      const parts = (await cursor.toArray()).reverse();
+      res.send(parts);
+    });
+
     app.post('/purchase',async(req,res)=>{
       const purchase=req.body;
       const result=await purchaseCollection.insertOne(purchase);
