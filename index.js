@@ -30,8 +30,6 @@ function verifyJWT(req, res, next) {
   });
 }
 
-
-
 async function run() {
   try {
 
@@ -48,6 +46,12 @@ async function run() {
     app.get('/parts', async (req, res) => {
       const query = {};
       const cursor = partsCollection.find(query);
+      const parts = (await cursor.toArray()).reverse();
+      res.send(parts);
+    });
+    app.get('/purchaseForAll', async (req, res) => {
+      const query = {};
+      const cursor = purchaseCollection.find(query);
       const parts = (await cursor.toArray()).reverse();
       res.send(parts);
     });
@@ -115,6 +119,13 @@ async function run() {
     })
     //delete
     app.delete('/purchase/:id',async (req,res)=>{
+      const id=req.params.id;
+      const query={_id: ObjectId(id)};
+      const result=await purchaseCollection.deleteOne(query);
+      console.log(result)
+      res.send(result);
+    })
+    app.delete('/purchaseForAll/:id',async (req,res)=>{
       const id=req.params.id;
       const query={_id: ObjectId(id)};
       const result=await purchaseCollection.deleteOne(query);
