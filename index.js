@@ -113,7 +113,7 @@ async function run() {
       const updatedPurchase=await purchaseCollection.updateOne(filter,updatedDoc);
       res.send(updatedDoc);
     })
-
+    //delete
     app.delete('/purchase/:id',async (req,res)=>{
       const id=req.params.id;
       const query={_id: ObjectId(id)};
