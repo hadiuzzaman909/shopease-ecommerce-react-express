@@ -72,7 +72,7 @@ async function run() {
       res.send(result);
     })
 
-    //purchase part
+    //purchase part is here 
 
 
     app.get('/purchaseForAll',verifyJWT, async (req, res) => {
