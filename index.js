@@ -6,6 +6,8 @@ const { MongoClient, ServerApiVersion, ObjectId, Transaction } = require('mongod
 const app = express()
 const port = process.env.PORT || 5000;
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+console.log(stripe)
+
 
 app.use(cors());
 app.use(express.json());
@@ -103,7 +105,6 @@ async function run() {
       const id=req.params.id;
       const query={_id: ObjectId(id)};
       const result=await purchaseCollection.findOne(query);
-
       res.send(result);
 
     })
@@ -216,7 +217,7 @@ async function run() {
     })
 
 
-    //payment
+    //payment system
     app.post('/create-payment-intent', verifyJWT, async(req, res) =>{
       const service = req.body;
       const price = service.price;
