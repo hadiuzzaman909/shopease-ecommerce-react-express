@@ -19,8 +19,7 @@ router.post("/create-user",upload.single("file"),async(req,res,next)=>{
     const user={
         name:name,
         email:email,
-        password:password,
-        avatar:fileUrl,
+        password:password
     }
 
     console.log(user);
