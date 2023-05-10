@@ -1,4 +1,4 @@
-# Bike Bones
+# ShopEase
 
 Project-Link: [ShopEase-Multi Vendor Ecommerce]().
 
