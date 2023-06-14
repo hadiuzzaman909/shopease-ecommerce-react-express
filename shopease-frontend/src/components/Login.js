@@ -1,11 +1,33 @@
 import React, { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Styles from '../styles/Styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { server } from '../server';
+import axios from 'axios';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visible, setVisible] = useState(false);
+    const navigate = useNavigate();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await axios.post(`${server}/user/login`,
+                {
+                    email,
+                    password,
+                },
+                { withCredentials: true }
+            )
+            .then((res) => {
+                toast.success("Login Success!");
+                navigate("/");
+                window.location.reload(true);
+            })
+            .catch((err) => {
+                toast.error(err.response.data.message);
+            });
+    };
     return (
         <div className='min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
             <div className='sm:mx-auto sm:w-full sm:max-w-md'>
@@ -13,7 +35,7 @@ const Login = () => {
             </div>
             <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
                 <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-                    <form className='space-y-6'>
+                    <form className='space-y-6' onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor='email' className='block text-sm font-medium text-gray-700'>
                                 Email Address
@@ -38,7 +60,7 @@ const Login = () => {
                             <div className='mt-1 relative'>
                                 <input
                                     className='appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-                                    type={visible? "text": "password"}
+                                    type={visible ? "text" : "password"}
                                     name='password'
                                     autoComplete='current-password'
                                     required
@@ -66,15 +88,15 @@ const Login = () => {
                             <div className={`${Styles.normalFlex} justify-between`}>
                                 <input type='checkbox' name='remember-me' id='remember-me'
                                     className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300  rounded'
-                                /> 
+                                />
                                 <label htmlFor='remember-me'
-                                className='ml-2 block text-sm text-gray-900'>
+                                    className='ml-2 block text-sm text-gray-900'>
                                     Remember Me
-                                </label>   
+                                </label>
                             </div>
                             <div className='text-sm'>
                                 <a href='/forgot-password'
-                                className='font-medium text-blue-600 hover:text-blue-500'>
+                                    className='font-medium text-blue-600 hover:text-blue-500'>
                                     Forget Your password ?
                                 </a>
                             </div>
@@ -82,7 +104,7 @@ const Login = () => {
                         <div>
                             <button type='submit'
                                 className='w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700'>
-                            Submit
+                                Submit
                             </button>
                         </div>
                         <div className={`${Styles.normalFlex} w-full`}>
